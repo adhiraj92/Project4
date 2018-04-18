@@ -7,10 +7,10 @@ import ser516.project3.client.observers.ExpressionsGraphObserver;
 import ser516.project3.client.observers.FaceViewObserver;
 import ser516.project3.client.observers.HeaderObserver;
 import ser516.project3.client.observers.PerformanceMetricGraphObserver;
-import ser516.project3.model.ExpressionsDataObservable;
-import ser516.project3.model.FaceExpressionsObservable;
-import ser516.project3.model.HeaderObservable;
-import ser516.project3.model.PerformanceMetricDataObservable;
+import ser516.project3.client.Components.Expressions.ExpressionsDataObservable;
+import ser516.project3.client.Components.Face.FaceExpressionsObservable;
+import ser516.project3.client.Components.Header.HeaderObservable;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricDataObservable;
 
 import java.io.IOException;
 

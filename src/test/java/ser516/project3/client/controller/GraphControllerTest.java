@@ -1,9 +1,10 @@
 package ser516.project3.client.controller;
 
 import org.junit.jupiter.api.Test;
-import ser516.project3.client.view.GraphView;
-import ser516.project3.model.CoordinatesModel;
-import ser516.project3.model.GraphModel;
+import ser516.project3.client.Components.Graph.GraphController;
+import ser516.project3.client.Components.Graph.GraphView;
+import ser516.project3.client.Components.Graph.CoordinatesModel;
+import ser516.project3.client.Components.Graph.GraphModel;
 
 import java.awt.*;
 import java.util.ArrayList;

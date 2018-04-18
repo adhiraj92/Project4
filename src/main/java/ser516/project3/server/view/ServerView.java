@@ -17,6 +17,11 @@ import javax.swing.border.TitledBorder;
 
 import ser516.project3.constants.ServerConstants;
 import ser516.project3.interfaces.ViewInterface;
+import ser516.project3.server.Components.Console.ConsoleView;
+import ser516.project3.server.Components.Emotions.EmotionsView;
+import ser516.project3.server.Components.Expressions.ExpressionsView;
+import ser516.project3.server.Components.Timer.TimerView;
+import ser516.project3.server.Components.Top.TopView;
 
 /**
  * The JFrame class of Server application

@@ -1,5 +1,8 @@
 package ser516.project3.client.view;
 
+import ser516.project3.client.Components.Expressions.ExpressionsView;
+import ser516.project3.client.Components.Header.HeaderView;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricView;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.ViewInterface;
 

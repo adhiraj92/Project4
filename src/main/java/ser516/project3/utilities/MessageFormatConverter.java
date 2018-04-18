@@ -1,6 +1,6 @@
 package ser516.project3.utilities;
 
-import ser516.project3.model.CoordinatesModel;
+import ser516.project3.client.Components.Graph.CoordinatesModel;
 import ser516.project3.model.MessageModel;
 import ser516.project3.model.MessageModel.AbstractExpression;
 import ser516.project3.model.MessageModel.ConcreteExpression;

@@ -1,11 +1,27 @@
 package ser516.project3.client.controller;
 
-import ser516.project3.client.view.*;
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpController;
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpModel;
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpView;
+import ser516.project3.client.Components.Expressions.ExpressionsController;
+import ser516.project3.client.Components.Expressions.ExpressionsModel;
+import ser516.project3.client.Components.Expressions.ExpressionsView;
+import ser516.project3.client.Components.Face.FaceController;
+import ser516.project3.client.Components.Face.FaceModel;
+import ser516.project3.client.Components.Face.FaceView;
+import ser516.project3.client.Components.Graph.GraphController;
+import ser516.project3.client.Components.Graph.GraphModel;
+import ser516.project3.client.Components.Graph.GraphView;
+import ser516.project3.client.Components.Header.HeaderController;
+import ser516.project3.client.Components.Header.HeaderModel;
+import ser516.project3.client.Components.Header.HeaderView;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricController;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricModel;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricView;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.ControllerInterface;
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.model.*;
 
 /**
  * The ControllerFactory class is a factory class that handles creation of

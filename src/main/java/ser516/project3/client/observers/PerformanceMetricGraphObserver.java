@@ -2,8 +2,8 @@ package ser516.project3.client.observers;
 
 import org.apache.log4j.Logger;
 import ser516.project3.client.controller.ClientControllerFactory;
-import ser516.project3.client.controller.GraphController;
-import ser516.project3.model.PerformanceMetricDataObservable;
+import ser516.project3.client.Components.Graph.GraphController;
+import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricDataObservable;
 
 import java.util.Observable;
 import java.util.Observer;

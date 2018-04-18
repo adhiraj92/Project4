@@ -3,11 +3,21 @@ package ser516.project3.server.controller;
 import ser516.project3.interfaces.ControllerInterface;
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.model.*;
-import ser516.project3.server.view.ConsoleView;
-import ser516.project3.server.view.EmotionsView;
-import ser516.project3.server.view.TimerView;
-import ser516.project3.server.view.TopView;
+import ser516.project3.server.Components.Console.ConsoleController;
+import ser516.project3.server.Components.Console.ConsoleModel;
+import ser516.project3.server.Components.Emotions.EmotionsController;
+import ser516.project3.server.Components.Emotions.EmotionsModel;
+import ser516.project3.server.Components.Expressions.ExpressionsController;
+import ser516.project3.server.Components.Expressions.ExpressionsModel;
+import ser516.project3.server.Components.Expressions.ExpressionsView;
+import ser516.project3.server.Components.Timer.TimerController;
+import ser516.project3.server.Components.Timer.TimerModel;
+import ser516.project3.server.Components.Top.TopController;
+import ser516.project3.server.Components.Console.ConsoleView;
+import ser516.project3.server.Components.Emotions.EmotionsView;
+import ser516.project3.server.Components.Timer.TimerView;
+import ser516.project3.server.Components.Top.TopModel;
+import ser516.project3.server.Components.Top.TopView;
 
 /**
  * The ControllerFactory class is a factory class that handles creation of
@@ -53,8 +63,8 @@ public class ServerControllerFactory {
         } else if (controllerType.equalsIgnoreCase("EMOTIONS")) {
             return new EmotionsController((EmotionsModel) model, (EmotionsView) view);
         } else if (controllerType.equalsIgnoreCase("SERVER_EXPRESSIONS")) {
-            return new ser516.project3.server.controller.ExpressionsController((ExpressionsModel) model,
-                    (ser516.project3.server.view.ExpressionsView) view);
+            return new ExpressionsController((ExpressionsModel) model,
+                    (ExpressionsView) view);
         } else if (controllerType.equalsIgnoreCase("CONSOLE")) {
             return new ConsoleController((ConsoleModel) model, (ConsoleView) view);
         }

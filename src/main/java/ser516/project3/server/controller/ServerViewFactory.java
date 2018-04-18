@@ -2,7 +2,16 @@ package ser516.project3.server.controller;
 
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.model.*;
+import ser516.project3.server.Components.Console.ConsoleModel;
+import ser516.project3.server.Components.Console.ConsoleView;
+import ser516.project3.server.Components.Emotions.EmotionsModel;
+import ser516.project3.server.Components.Emotions.EmotionsView;
+import ser516.project3.server.Components.Expressions.ExpressionsModel;
+import ser516.project3.server.Components.Expressions.ExpressionsView;
+import ser516.project3.server.Components.Timer.TimerModel;
+import ser516.project3.server.Components.Timer.TimerView;
+import ser516.project3.server.Components.Top.TopModel;
+import ser516.project3.server.Components.Top.TopView;
 import ser516.project3.server.view.*;
 
 /**
@@ -31,7 +40,7 @@ public class ServerViewFactory {
         } else if (viewType.equalsIgnoreCase("EMOTIONS")) {
             return new EmotionsView((EmotionsModel) model);
         } else if (viewType.equalsIgnoreCase("SERVER_EXPRESSIONS")) {
-            return new ser516.project3.server.view.ExpressionsView((ExpressionsModel) model);
+            return new ExpressionsView((ExpressionsModel) model);
         } else if (viewType.equalsIgnoreCase("CONSOLE")) {
             return new ConsoleView((ConsoleModel) model);
         }
