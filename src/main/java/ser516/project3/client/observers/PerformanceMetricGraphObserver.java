@@ -33,7 +33,7 @@ public class PerformanceMetricGraphObserver implements Observer {
         GraphController graphController = ClientControllerFactory.getInstance().getPerformanceMetricGraphController();
 
         graphController.setGraphData(performanceMetricDataObservable.getPerformanceMetricData());
-        graphController.updateGraphView();
+        graphController.updateView();
     }
 
 }

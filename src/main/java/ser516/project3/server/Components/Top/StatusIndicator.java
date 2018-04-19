@@ -1,4 +1,4 @@
-package ser516.project3.server.view;
+package ser516.project3.server.Components.Top;
 
 import javax.swing.*;
 import java.awt.*;

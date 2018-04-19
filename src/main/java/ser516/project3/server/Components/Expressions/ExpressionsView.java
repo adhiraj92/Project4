@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.util.EventListener;
 
 
 /**
@@ -19,7 +20,7 @@ import java.awt.event.ItemListener;
  *
  * @author Janani, Sangeetha, Ganesh
  */
-public class ExpressionsView extends JPanel implements ViewInterface {
+public class ExpressionsView extends ExpressionsAbstractView {
     private JComboBox<Object> lowerFaceCombo;
     private JComboBox<Object> upperFaceCombo;
     private JComboBox<Object> eyeCombo;
@@ -28,7 +29,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
     private WebToggleButton eyeActionToggle;
     private WebButton eyeActionButton;
     private JCheckBox eyeCheckBox;
-    private ExpressionsModel expressionsModel;
+    
     String[] lowerFaceList = {"Smile", "Clench", "Smirk Left", "Smirk Right", "Laugh"};
     String[] upperFaceList = {"Raise Brow", "Furrow Brow"};
     String[] eyeList = {"Blink", "Wink Left", "Wink Right", "Look Left", "Look Right"};
@@ -41,7 +42,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param expressionsModel model object containing required expressions data.
      */
     public ExpressionsView(ExpressionsModel expressionsModel) {
-        this.expressionsModel = expressionsModel;
+        super(expressionsModel);
     }
 
     /**
@@ -51,12 +52,8 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-
-        GridBagLayout gbl_expressionPanel = new GridBagLayout();
-        setLayout(gbl_expressionPanel);
-        setBackground(Color.decode("#747b83"));
-        setBorder(
-                new TitledBorder(null, "Expressions", TitledBorder.LEADING,
+        super.initializeView(subViews);
+        setBorder(new TitledBorder(null, "Expressions", TitledBorder.LEADING,
                         TitledBorder.TOP, SUBFONT, null));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -67,6 +64,50 @@ public class ExpressionsView extends JPanel implements ViewInterface {
         createActivateButton(gridBagConstraints);
         createEyeCheckBox(gridBagConstraints);
     }
+    
+    @Override
+	public void addListener(EventListener eventListener, String componentName) {
+		switch(componentName) {
+		case "COMBO_LOWERFACE":
+			lowerFaceCombo.addActionListener((ActionListener)eventListener);
+			break;
+		case "COMBO_UPPERFACE":
+			upperFaceCombo.addActionListener((ActionListener)eventListener);
+			break;
+		case "COMBO_EYE":
+			eyeCombo.addActionListener((ActionListener)eventListener);
+			break;
+		case "SPINNER_LOWERFACE":
+			lowerFaceSpinner.addChangeListener((ChangeListener)eventListener);
+			break;
+		case "SPINNER_UPPERFACE":
+			upperFaceSpinner.addChangeListener((ChangeListener)eventListener);
+			break;
+		case "TOGGLE_EYE":
+			eyeActionToggle.addItemListener((ItemListener)eventListener);
+			break;
+		case "BUTTON_EYE":
+			eyeActionButton.getModel().addChangeListener((ChangeListener)eventListener);
+			break;
+		case "CHECKBOX_EYE":
+			eyeCheckBox.addActionListener((ActionListener)eventListener);
+			break;
+		}
+	}
+    
+    @Override
+    public void changeActivateButtonType() {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        if (expressionsModel.isEyeCheckBoxChecked()) {
+            eyeActionToggle.setVisible(false);
+            eyeActionButton.setVisible(true);
+        } else {
+            eyeActionToggle.setVisible(true);
+            eyeActionButton.setVisible(false);
+        }
+    }
 
     /**
      * Method to create labels in expressions panel
@@ -74,7 +115,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for each label
      */
-    public void createLabels(GridBagConstraints gridBagConstraints) {
+    private void createLabels(GridBagConstraints gridBagConstraints) {
         JLabel lowerFaceLbl = new JLabel("Lower Face");
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -97,7 +138,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for each combo box
      */
-    public void createComboBoxes(GridBagConstraints gridBagConstraints) {
+    private void createComboBoxes(GridBagConstraints gridBagConstraints) {
         lowerFaceCombo = new JComboBox<Object>();
         lowerFaceCombo.setModel(new DefaultComboBoxModel<Object>(lowerFaceList));
         lowerFaceCombo.setPreferredSize(new Dimension(120, 30));
@@ -126,7 +167,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for each spinners
      */
-    public void createSpinners(GridBagConstraints gridBagConstraints) {
+    private void createSpinners(GridBagConstraints gridBagConstraints) {
         SpinnerModel lowerFaceModel = new SpinnerNumberModel(0.0, 0.0, 1.0, 0.1);
         lowerFaceSpinner = new JSpinner(lowerFaceModel);
         lowerFaceSpinner.setPreferredSize(spinnerDimension);
@@ -148,7 +189,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for toggleButton
      */
-    public void createActivateToggleButton(GridBagConstraints gridBagConstraints) {
+    private void createActivateToggleButton(GridBagConstraints gridBagConstraints) {
         eyeActionToggle = new WebToggleButton("Activate");
         eyeActionToggle.setPreferredSize(new Dimension(90, 30));
         eyeActionToggle.setBottomBgColor(Color.BLACK);
@@ -168,7 +209,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for toggleButton
      */
-    public void createActivateButton(GridBagConstraints gridBagConstraints) {
+    private void createActivateButton(GridBagConstraints gridBagConstraints) {
         eyeActionButton = new WebButton("Activate");
         eyeActionButton.setPreferredSize(new Dimension(90, 30));
         eyeActionButton.setBottomBgColor(Color.BLACK);
@@ -189,79 +230,10 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param gridBagConstraints GridBagConstraints object to set the position
      *                           for CheckBox
      */
-    public void createEyeCheckBox(GridBagConstraints gridBagConstraints) {
+    private void createEyeCheckBox(GridBagConstraints gridBagConstraints) {
         eyeCheckBox = new JCheckBox("Auto Reset");
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
         add(eyeCheckBox, gridBagConstraints);
-    }
-
-    public void changeActivateButtonType() {
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        if (expressionsModel.isEyeCheckBoxChecked()) {
-            eyeActionToggle.setVisible(false);
-            eyeActionButton.setVisible(true);
-        } else {
-            eyeActionToggle.setVisible(true);
-            eyeActionButton.setVisible(false);
-        }
-    }
-
-    /**
-     * Method to add ActionListener to LowerFace ComboBox
-     */
-    public void addLowerFaceComboListener(ActionListener actionListener) {
-        lowerFaceCombo.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add ActionListener to UpperFace ComboBox
-     */
-    public void addUpperFaceComboListener(ActionListener actionListener) {
-        upperFaceCombo.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add ActionListener to Eye ComboBox
-     */
-    public void addEyeComboListener(ActionListener actionListener) {
-        eyeCombo.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add ChangeListener to LowerFace Spinner
-     */
-    public void addLowerFaceSpinnerChangeListener(ChangeListener changeListener) {
-        lowerFaceSpinner.addChangeListener(changeListener);
-    }
-
-    /**
-     * Method to add ChangeListener to UpperFace Spinner
-     */
-    public void addUpperFaceSpinnerChangeListener(ChangeListener changeListener) {
-        upperFaceSpinner.addChangeListener(changeListener);
-    }
-
-    /**
-     * Method to add ItemListener to the activate toggle button
-     */
-    public void addActivateToggleButtonItemListener(ItemListener itemListener) {
-        eyeActionToggle.addItemListener(itemListener);
-    }
-
-    /**
-     * Method to add ChangeListener to the activate button
-     */
-    public void addActivateButtonListener(ChangeListener changeListener) {
-        eyeActionButton.getModel().addChangeListener(changeListener);
-    }
-
-    /**
-     * Method to add ActionListener to CheckBox to Auto-Reset Eye action
-     */
-    public void addEyeCheckBoxListener(ActionListener actionListener) {
-        eyeCheckBox.addActionListener(actionListener);
     }
 }

@@ -3,7 +3,6 @@ package ser516.project3.server.helper;
 import org.apache.log4j.Logger;
 import ser516.project3.constants.ServerConstants;
 import ser516.project3.server.controller.ServerController;
-import ser516.project3.utilities.MessageEncoder;
 import ser516.project3.utilities.ServerCommonData;
 
 import javax.websocket.*;

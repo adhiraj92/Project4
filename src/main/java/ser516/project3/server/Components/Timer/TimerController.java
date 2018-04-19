@@ -1,7 +1,5 @@
 package ser516.project3.server.Components.Timer;
 
-import ser516.project3.interfaces.ControllerInterface;
-
 /**
  * Class that helps communicate between TimerView and TimerModel.
  * The controller can receive and update data from the TimerView,
@@ -9,9 +7,7 @@ import ser516.project3.interfaces.ControllerInterface;
  *
  * @author Adhiraj Tikku
  */
-public class TimerController implements ControllerInterface {
-    private TimerModel timerModel;
-    private TimerView timerView;
+public class TimerController extends TimerAbstractController {
 
     /**
      * Constructor to set the timer view and model object
@@ -20,8 +16,7 @@ public class TimerController implements ControllerInterface {
      * @param timerView  TimerView object
      */
     public TimerController(TimerModel timerModel, TimerView timerView) {
-        this.timerModel = timerModel;
-        this.timerView = timerView;
+        super(timerModel, timerView);
     }
 
     /**
@@ -33,31 +28,12 @@ public class TimerController implements ControllerInterface {
     }
 
     /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
-    }
-
-    /**
-     * Method to get Timer view
-     * and @return Timer view object
-     */
-    @Override
-    public TimerView getView() {
-        return timerView;
-    }
-
-    /**
      * Updates the time stamp in TimerModel  and TimerView
      *
      * @param timeStamp value to be set for timeStamp in the server
      */
     public void updateTimeStamp(double timeStamp) {
         timerModel.setTimeElapsed(timeStamp);
-        timerView.updateTimeStamp();
+        timerView.updateView(timerModel);
     }
 }

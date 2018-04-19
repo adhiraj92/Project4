@@ -1,18 +1,19 @@
 package ser516.project3.server.Components.Top;
 
-import org.apache.log4j.Logger;
-import ser516.project3.constants.ServerConstants;
-import ser516.project3.interfaces.ControllerInterface;
-import ser516.project3.server.controller.ServerController;
-import ser516.project3.server.service.ServerConnectionServiceInterface;
-import ser516.project3.utilities.ServerCommonData;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import org.apache.log4j.Logger;
+
+import ser516.project3.constants.ServerConstants;
+import ser516.project3.server.controller.ServerController;
+import ser516.project3.server.service.ServerConnectionServiceInterface;
+import ser516.project3.utilities.ServerCommonData;
 
 /**
  * Class that helps communicate between TopView and TopModel.
@@ -21,11 +22,9 @@ import java.awt.event.ActionListener;
  *
  * @author Adhiraj Tikku
  */
-public class TopController implements ControllerInterface {
+public class TopController extends TopAbstractController {
     final static Logger logger = Logger.getLogger(TopController.class);
 
-    private TopModel topModel;
-    private TopView topView;
     private ServerConnectionServiceInterface serverConnectionService;
 
     private static final String START = "Start";
@@ -39,8 +38,7 @@ public class TopController implements ControllerInterface {
      * @param topView  TopView object
      */
     public TopController(TopModel topModel, TopView topView) {
-        this.topModel = topModel;
-        this.topView = topView;
+        super(topModel, topView);
     }
 
     /**
@@ -50,31 +48,11 @@ public class TopController implements ControllerInterface {
     @Override
     public void initializeView() {
         topView.initializeView(null);
-        topView.addIntervalInputTextFieldListener(new IntervalDocumentListener());
-        topView.addAutoRepeatCheckBoxListener(new AutoRepeatCheckBoxListener());
-        topView.addServerStartStopButtonListener(new ServerStartStopButtonListener());
-        topView.addSendButtonListener(new SendButtonListener());
+        topView.addListener(new IntervalDocumentListener(), "TEXTFIELD_INTERVAL");
+        topView.addListener(new AutoRepeatCheckBoxListener(), "CHECKBOX_AUTOREPEAT");
+        topView.addListener(new ServerStartStopButtonListener(), "BUTTON_SERVER");
+        topView.addListener(new SendButtonListener(), "BUTTON_SEND");
         ServerCommonData.getInstance().getMessage().setInterval(topModel.getInterval());
-    }
-
-    /**
-     * Method to get the TopView object
-     *
-     * @return TopView object
-     */
-    @Override
-    public TopView getView() {
-        return topView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
     }
 
     /**
@@ -144,7 +122,7 @@ public class TopController implements ControllerInterface {
             } else {
                 topModel.setSendButtonText(SEND);
             }
-            topView.updateSendButtonText();
+            topView.updateView(topModel);
             logger.info(ServerConstants.TOGGLE_VALUE_CHANGED + isChecked);
         }
     }
@@ -171,8 +149,7 @@ public class TopController implements ControllerInterface {
                 topModel.setServerStartStopButtonText(ServerConstants.STOP_SERVER);
                 setBlinking(true);
             }
-            topView.enableDisableSendButton();
-            topView.updateServerStartStopButtonText();
+            topView.updateView(topModel);
         }
     }
 
@@ -197,9 +174,7 @@ public class TopController implements ControllerInterface {
                     }
                     topModel.setAutoRepeatEnabled(!topModel.isAutoRepeatEnabled());
                     topModel.setIntervalEditable(!topModel.isIntervalEditable());
-                    topView.updateSendButtonText();
-                    topView.enableDisableAutoRepeatCheckBox();
-                    topView.enableDisableEditableIntervalInputTextField();
+                    topView.updateView(topModel);
                 }
                 if (topModel.isShouldSendData()) {
                     topModel.setShouldSendData(false);
@@ -234,14 +209,14 @@ public class TopController implements ControllerInterface {
      * Method to update the text in start/stop button
      */
     public void updateServerStartStopButtonText() {
-        topView.updateServerStartStopButtonText();
+        topView.updateView(topModel);
     }
 
     /**
      * Method to enable/disable the send button
      */
     public void updateEnableDisableSendButton() {
-        topView.enableDisableSendButton();
+        topView.updateView(topModel);
     }
 
     /**

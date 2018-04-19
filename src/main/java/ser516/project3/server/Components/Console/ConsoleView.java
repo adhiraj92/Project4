@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EventListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,15 +24,13 @@ import java.util.Observer;
  * @author Vishakha, Zain, Pratik
  */
 
-public class ConsoleView extends JPanel implements Observer, ViewInterface {
+public class ConsoleView extends ConsoleAbstractView implements Observer {
     private JTextArea consoleOutput;
     private WebButton clearConsole;
     private JScrollPane consoleScroll;
-    private ConsoleModel consoleModel;
 
     private static final Font SUBFONT = new Font(ServerConstants.FONT_NAME, Font.BOLD, 14);
     private static final Color LIGHTGREY = new Color(245, 245, 245);
-
 
     /**
      * Method to set console model
@@ -39,7 +38,7 @@ public class ConsoleView extends JPanel implements Observer, ViewInterface {
      * @param consoleModel model object containing required console data.
      */
     public ConsoleView(ConsoleModel consoleModel) {
-        this.consoleModel = consoleModel;
+        super(consoleModel);
     }
 
     /**
@@ -91,17 +90,18 @@ public class ConsoleView extends JPanel implements Observer, ViewInterface {
         consoleOutput.append("[" + dateFormat.format(dateObj) + "] : " + message);
         consoleOutput.append("\n");
     }
-
-    /**
-     * Method to add listener to the clear console button
-     */
-    public void addClearConsoleListener(ActionListener actionListener) {
-        clearConsole.addActionListener(actionListener);
-    }
+    
+    @Override
+	public void addListener(EventListener eventListener, String componentName) {
+		if(componentName.equals("BUTTON_CLEARCONSOLE")) {
+			clearConsole.addActionListener((ActionListener)eventListener);
+		}
+	}
 
     /**
      * Method to clear the console
      */
+    @Override
     public void clearConsole() {
         consoleOutput.setText(null);
     }

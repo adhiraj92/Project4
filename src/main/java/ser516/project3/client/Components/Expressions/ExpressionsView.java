@@ -14,8 +14,7 @@ import java.awt.*;
  * @author vsriva12
  */
 @SuppressWarnings("serial")
-public class ExpressionsView extends JPanel implements ViewInterface {
-    private ExpressionsModel expressionsModel;
+public class ExpressionsView extends ExpressionsAbstractView {
 
     /**
      * This constructor initializes the model of Expressions view.
@@ -23,7 +22,7 @@ public class ExpressionsView extends JPanel implements ViewInterface {
      * @param expressionsModel an object of ExpressionsModel class
      */
     public ExpressionsView(ExpressionsModel expressionsModel) {
-        this.expressionsModel = expressionsModel;
+        super(expressionsModel);
     }
 
     /**

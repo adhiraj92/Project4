@@ -1,5 +1,9 @@
 package ser516.project3.client.Components.Graph;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -10,13 +14,10 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import ser516.project3.constants.ClientConstants;
-import ser516.project3.interfaces.ViewInterface;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.util.ArrayList;
+import ser516.project3.constants.ClientConstants;
+import ser516.project3.interfaces.ModelInterface;
+import ser516.project3.interfaces.ViewInterface;
 
 /**
  * GraphView is a class to represent the basic view template of a graph. A graph can
@@ -27,35 +28,28 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 2018-03-30
  */
-public class GraphView extends JPanel implements ViewInterface {
+public class GraphView extends GraphAbstractView {
     private JFreeChart chart;
     private ChartPanel chartPanel;
-    private GraphModel graphModel;
     private boolean legendDisplay;
     private double currentXCoordinate;
-
-    private static final int TITLE_FONT_SIZE = 17;
-    private static final int GRAPH_AXIS_FONT_SIZE = 14;
 
     /**
      * Initializes a graph instance and creates a default empty
      * graph.
      */
     public GraphView(GraphModel graphModel) {
-        this.graphModel = graphModel;
+        super(graphModel);
         currentXCoordinate = 0;
     }
-
+    
     /**
      * this method initializes the view and configures the positions of
      * components.
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-        setLayout(new GridLayout(1, 1, 8, 8));
-        setBorder(new TitledBorder(null, ClientConstants.GRAPH,
-                TitledBorder.CENTER, TitledBorder.TOP, new Font(ClientConstants.FONT_NAME, Font.BOLD, TITLE_FONT_SIZE), null));
-        setBackground(Color.decode(ClientConstants.PANEL_COLOR_HEX));
+        super.initializeView(subViews);
         XYSeriesCollection dataSet = new XYSeriesCollection();
         chart = createChart(dataSet);
         chartPanel = new ChartPanel(chart);
@@ -69,8 +63,9 @@ public class GraphView extends JPanel implements ViewInterface {
      * @param graphModel a model object containing required graph data.
      * @see GraphModel
      */
-    public void updateGraphView(GraphModel graphModel) {
-        this.graphModel = graphModel;
+    @Override
+	public void updateView(ModelInterface model) {
+    	this.graphModel = (GraphModel)model;
         legendDisplay = true;
         if (graphModel.getNoOfChannels() == 6)
             legendDisplay = false;
@@ -80,7 +75,7 @@ public class GraphView extends JPanel implements ViewInterface {
         chartPanel = new ChartPanel(chart);
         add(chartPanel);
         setVisible(true);
-    }
+	}
 
     /**
      * this method creates data set to plot graph

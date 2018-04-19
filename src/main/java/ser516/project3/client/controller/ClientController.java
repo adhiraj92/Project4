@@ -24,6 +24,7 @@ import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.CommonDataInterface;
 import ser516.project3.interfaces.ControllerInterface;
 import ser516.project3.interfaces.ViewInterface;
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpAbstractView;
 import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpModel;
 import ser516.project3.client.Components.Expressions.ExpressionsModel;
 import ser516.project3.client.Components.Face.FaceModel;
@@ -131,7 +132,7 @@ public class ClientController implements ControllerInterface, CommonDataInterfac
 	 */
 	private void initializeHeader(ClientViewFactory viewFactory, ClientControllerFactory controllerFactory) {
 		ConnectionPopUpModel connectionPopUpModel = new ConnectionPopUpModel();
-		ConnectionPopUpView connectionPopUpView = (ConnectionPopUpView) viewFactory.getView(ClientConstants.CONNECTION_POP_UP, connectionPopUpModel);
+		ConnectionPopUpAbstractView connectionPopUpView = (ConnectionPopUpView) viewFactory.getView(ClientConstants.CONNECTION_POP_UP, connectionPopUpModel);
 		connectionPopUpController = controllerFactory.getController(ClientConstants.CONNECTION_POP_UP, connectionPopUpModel, connectionPopUpView, null);
 
 		ControllerInterface subControllers[] = {connectionPopUpController};

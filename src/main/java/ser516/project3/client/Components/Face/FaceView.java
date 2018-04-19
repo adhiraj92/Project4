@@ -7,6 +7,7 @@ import ser516.project3.client.Components.Face.eyes.RightEyeBall;
 import ser516.project3.client.Components.Face.lowerface.Mouth;
 import ser516.project3.client.Components.Face.upperface.LeftEyeBrow;
 import ser516.project3.client.Components.Face.upperface.RightEyeBrow;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 import ser516.project3.model.MessageModel;
 
@@ -47,6 +48,36 @@ public class FaceView extends JPanel implements ViewInterface {
     public FaceView(FaceModel faceModel) {
         this.faceModel = faceModel;
     }
+    
+    /**
+	 * This method initializes the face view.
+	 * 
+	 * @param subViews an array of objects of class ViewInterface
+	 * @throws IOException
+	 */
+	@Override
+	public void initializeView(ViewInterface[] subViews) {
+		setPreferredSize(new Dimension(faceModel.getWidth(), faceModel.getHeight()));
+		mouthView = new Mouth();
+		leftEye = new LeftEye();
+		rightEye = new RightEye();
+		leftEyeBall = new LeftEyeBall();
+		rightEyeBall = new RightEyeBall();
+		File faceFile = new File(faceLayoutPath);
+		File noseFile = new File(nosePath);
+		try {
+			faceBufferedImage = ImageIO.read(faceFile);
+			noseBufferedImage = ImageIO.read(noseFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    @Override
+	public void updateView(ModelInterface model) {
+		// TODO Auto-generated method stub
+		
+	}
 
     /**
      * Overridden method , that is used for painting graphic on the Jpanel.
@@ -114,30 +145,6 @@ public class FaceView extends JPanel implements ViewInterface {
         faceColor = newColor;
     }
 
-	/**
-	 * This method initializes the face view.
-	 * 
-	 * @param subViews an array of objects of class ViewInterface
-	 * @throws IOException
-	 */
-	@Override
-	public void initializeView(ViewInterface[] subViews) {
-		setPreferredSize(new Dimension(faceModel.getWidth(), faceModel.getHeight()));
-		mouthView = new Mouth();
-		leftEye = new LeftEye();
-		rightEye = new RightEye();
-		leftEyeBall = new LeftEyeBall();
-		rightEyeBall = new RightEyeBall();
-		File faceFile = new File(faceLayoutPath);
-		File noseFile = new File(nosePath);
-		try {
-			faceBufferedImage = ImageIO.read(faceFile);
-			noseBufferedImage = ImageIO.read(noseFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
     /**
      * this method gets the status of selection.
      *
@@ -155,5 +162,4 @@ public class FaceView extends JPanel implements ViewInterface {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-
 }

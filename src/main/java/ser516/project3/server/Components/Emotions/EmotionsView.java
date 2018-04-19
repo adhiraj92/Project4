@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.EventListener;
 
 /**
  * Class to create components in emotions panel
@@ -14,9 +15,9 @@ import java.awt.*;
  *
  * @author Maitreyi, Janani, Ganesh
  */
-public class EmotionsView extends JPanel implements ViewInterface {
+public class EmotionsView extends EmotionsAbstractView {
     private JSpinner jspinner[];
-    private EmotionsModel emotionsModel;
+    
     private static final Font SUBFONT = new Font(ServerConstants.FONT_NAME, Font.BOLD, 14);
 
     /**
@@ -25,7 +26,7 @@ public class EmotionsView extends JPanel implements ViewInterface {
      * @param emotionsModel model object containing required emotions data.
      */
     public EmotionsView(EmotionsModel emotionsModel) {
-        this.emotionsModel = emotionsModel;
+        super(emotionsModel);
     }
 
     /**
@@ -87,9 +88,12 @@ public class EmotionsView extends JPanel implements ViewInterface {
      *
      * @param changeListener object of ChangeListener
 	 */
-	public void addSpinnerListener(ChangeListener changeListener) {
-		for(EmotionPanel emotionPanel : EmotionPanel.values()) {
-			jspinner[emotionPanel.id].addChangeListener(changeListener);
-		}
+    @Override
+	public void addListener(EventListener eventListener, String componentName) {
+    	if(componentName.equals("SPINNER_EMOTION")) {
+    		for(EmotionPanel emotionPanel : EmotionPanel.values()) {
+    			jspinner[emotionPanel.id].addChangeListener((ChangeListener)eventListener);
+    		}
+    	}
 	}
 }

@@ -1,19 +1,20 @@
 package ser516.project3.client.Components.PerformanceMetric;
 
-import ser516.project3.client.Components.Graph.GraphController;
-import ser516.project3.constants.ClientConstants;
-import ser516.project3.interfaces.ControllerInterface;
-import ser516.project3.interfaces.ViewInterface;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JColorChooser;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+
+import ser516.project3.client.Components.Graph.GraphController;
+import ser516.project3.constants.ClientConstants;
+import ser516.project3.interfaces.ControllerInterface;
+import ser516.project3.interfaces.ViewInterface;
 
 /**
  * The PerformanceMetricController class is used to initialize the performance
@@ -21,9 +22,7 @@ import java.awt.event.KeyEvent;
  *
  * @author vsriva12
  */
-public class PerformanceMetricController implements ControllerInterface {
-    private PerformanceMetricModel performanceMetricModel;
-    private PerformanceMetricView performanceMetricView;
+public class PerformanceMetricController extends PerformanceMetricAbstractController {
 
     private GraphController graphController;
 
@@ -37,8 +36,7 @@ public class PerformanceMetricController implements ControllerInterface {
      */
     public PerformanceMetricController(PerformanceMetricModel performanceMetricModel,
                                        PerformanceMetricView performanceMetricView, GraphController graphController) {
-        this.performanceMetricModel = performanceMetricModel;
-        this.performanceMetricView = performanceMetricView;
+        super(performanceMetricModel, performanceMetricView);
         this.graphController = graphController;
     }
 
@@ -55,22 +53,12 @@ public class PerformanceMetricController implements ControllerInterface {
                 performanceMetricModel.getRelaxationColor(), performanceMetricModel.getExcitementColor(),
                 performanceMetricModel.getFocusColor()};
         graphController.setChannelColors(channelColors);
-        graphController.updateGraphView();
+        graphController.updateView();
         ViewInterface clientViewInterface[] = {graphController.getView()};
         performanceMetricView.initializeView(clientViewInterface);
-        performanceMetricView.addEmotionButtonsListener(new EmotionButtonsListener());
-        performanceMetricView.addDisplayLengthListener(new DisplayLengthKeyListener(),
-                new DisplayLengthDocumentListener());
-    }
-
-    /**
-     * Method to get PerformanceMetric view
-     *
-     * @return performancemetric view object
-     */
-    @Override
-    public PerformanceMetricView getView() {
-        return performanceMetricView;
+        performanceMetricView.addListener(new EmotionButtonsListener(), null, "BUTTON_EMOTIONS");
+        performanceMetricView.addListener(new DisplayLengthKeyListener(), "KEY", "TEXTFIELD_DISPLAYLENGTH");
+        performanceMetricView.addListener(new DisplayLengthDocumentListener(), "DOCUMENT", "TEXTFIELD_DISPLAYLENGTH");
     }
 
     /**
@@ -150,10 +138,10 @@ public class PerformanceMetricController implements ControllerInterface {
                     performanceMetricModel.getRelaxationColor(), performanceMetricModel.getExcitementColor(),
                     performanceMetricModel.getFocusColor()};
             graphController.setChannelColors(channelColors);
-            graphController.updateGraphView();
+            graphController.updateView();
             performanceMetricView.revalidate();
             performanceMetricView.repaint();
-            performanceMetricView.updatePerformanceMetricView(performanceMetricModel);
+            performanceMetricView.updateView(performanceMetricModel);
         }
     }
 
@@ -166,8 +154,8 @@ public class PerformanceMetricController implements ControllerInterface {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                graphController.updateGraphView();
-                performanceMetricView.updatePerformanceMetricView(performanceMetricModel);
+                graphController.updateView();
+                performanceMetricView.updateView(performanceMetricModel);
                 performanceMetricView.revalidate();
                 performanceMetricView.repaint();
             }

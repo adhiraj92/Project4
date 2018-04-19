@@ -1,7 +1,7 @@
 package ser516.project3.model;
 
-import ser516.project3.utilities.MessageDecoder;
-import ser516.project3.utilities.MessageEncoder;
+import ser516.project3.client.helper.MessageDecoder;
+import ser516.project3.server.helper.MessageEncoder;
 
 import java.util.HashMap;
 

@@ -4,6 +4,7 @@ import ser516.project3.client.Components.Expressions.ExpressionsView;
 import ser516.project3.client.Components.Header.HeaderView;
 import ser516.project3.client.Components.PerformanceMetric.PerformanceMetricView;
 import ser516.project3.constants.ClientConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 
 import javax.swing.*;
@@ -71,6 +72,12 @@ public class ClientView extends JFrame implements ViewInterface {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
+    
+    @Override
+	public void updateView(ModelInterface model) {
+		// TODO Auto-generated method stub
+		
+	}
 
     /**
      * This method creates an option menu with item to open server

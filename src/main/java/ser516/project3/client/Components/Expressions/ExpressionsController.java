@@ -2,18 +2,15 @@ package ser516.project3.client.Components.Expressions;
 
 import ser516.project3.client.Components.Face.FaceController;
 import ser516.project3.client.Components.Graph.GraphController;
-import ser516.project3.interfaces.CommonDataInterface;
-import ser516.project3.interfaces.ViewInterface;
 import ser516.project3.interfaces.ControllerInterface;
+import ser516.project3.interfaces.ViewInterface;
 
 /**
  * The Controller class for Expressions related tasks
- * @author vsriva12
+ * @author Adhiraj Tikku, vsriva12
  *
  */
-public class ExpressionsController implements ControllerInterface, CommonDataInterface {
-  private ExpressionsModel expressionsModel;
-  private ExpressionsView expressionsView;
+public class ExpressionsController extends ExpressionsAbstractController {
 
   private GraphController graphController;
   private FaceController faceController;
@@ -30,8 +27,7 @@ public class ExpressionsController implements ControllerInterface, CommonDataInt
    */
   public ExpressionsController(ExpressionsModel expressionsModel, ExpressionsView expressionsView,
                                GraphController graphController, FaceController faceController) {
-    this.expressionsModel = expressionsModel;
-    this.expressionsView = expressionsView;
+    super(expressionsModel, expressionsView);
     this.graphController = graphController;
     this.faceController = faceController;
   }
@@ -47,18 +43,9 @@ public class ExpressionsController implements ControllerInterface, CommonDataInt
     graphController.setLegendNames(legendNames);
     graphController.setNoOfChannels(12);
     graphController.setXLength(100);
-    graphController.updateGraphView();
+    graphController.updateView();
     ViewInterface clientViewInterface[] = {graphController.getView(), faceController.getView()};
     expressionsView.initializeView(clientViewInterface);
-  }
-
-  /**
-   * Method to get expression view
-   * and @return expression view object
-   */
-  @Override
-  public ExpressionsView getView() {
-    return expressionsView;
   }
 
   /**

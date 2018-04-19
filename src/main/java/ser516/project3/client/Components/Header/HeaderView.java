@@ -2,11 +2,13 @@ package ser516.project3.client.Components.Header;
 
 import com.alee.laf.button.WebButton;
 import ser516.project3.constants.ClientConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 /**
  * HeaderView class to implement the header view for client to show and update
@@ -15,7 +17,7 @@ import java.awt.event.ActionListener;
  * @author Vishakha Singal, Adhiraj Tikku
  * @version 1.0
  */
-public class HeaderView extends JPanel implements ViewInterface {
+public class HeaderView extends HeaderAbstractView {
 
     private JLabel connectionLabel;
     private JLabel timeStampLabel;
@@ -23,7 +25,6 @@ public class HeaderView extends JPanel implements ViewInterface {
     private JLabel timestampTextLabel;
     private WebButton connectButton;
     private WebButton serverOpenButton;
-    private HeaderModel headerModel;
 
     private final static int FONT_SIZE = 15;
 
@@ -33,7 +34,7 @@ public class HeaderView extends JPanel implements ViewInterface {
      * @param headerModel
      */
     public HeaderView(HeaderModel headerModel) {
-        this.headerModel = headerModel;
+        super(headerModel);
     }
 
     /**
@@ -44,16 +45,53 @@ public class HeaderView extends JPanel implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-        setBorder(null);
-        setLayout(new GridBagLayout());
-        setBackground(Color.decode(ClientConstants.PANEL_COLOR_HEX));
-
+    	super.initializeView(subViews);
         GridBagConstraints bagConstraints = new GridBagConstraints();
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 
         createLabels(bagConstraints);
         createConnectButton(bagConstraints);
         createServerOpenButton(bagConstraints);
+    }
+    
+    @Override
+	public void updateView(ModelInterface model) {
+    	this.headerModel = (HeaderModel)model;
+    	updateConnectionData();
+    	updateTimeStamp();
+	}
+
+	@Override
+	public void addListener(EventListener eventListener, String componentName) {
+		switch(componentName) {
+			case "BUTTON_CONNECT":
+				connectButton.addActionListener((ActionListener)eventListener);
+				break;
+			case "BUTTON_OPENSERVER":
+				serverOpenButton.addActionListener((ActionListener)eventListener);
+				break;
+		}
+	}
+    
+    /**
+     * This method updates the connection status on panel.
+     */
+    private void updateConnectionData() {
+        // May need to update this
+        if (headerModel.isConnectionStatus()) {
+            connectButton.setText(ClientConstants.DISCONNECT);
+            connectionLabel.setText(ClientConstants.CONNECTED);
+        } else {
+            connectButton.setText(ClientConstants.CONNECT);
+            connectionLabel.setText(ClientConstants.DISCONNECTED);
+        }
+    }
+
+    /**
+     * This method updates the time stamp on the panel.
+     */
+    private void updateTimeStamp() {
+        timeStampLabel.setText(String.valueOf(headerModel.getTimeStamp()));
     }
 
     /**
@@ -146,44 +184,5 @@ public class HeaderView extends JPanel implements ViewInterface {
         bagConstraints.gridheight = 3;
         bagConstraints.insets = new Insets(0, 20, 0, 20);
         add(serverOpenButton, bagConstraints);
-    }
-
-    /**
-     * This method handles events on the connect button on panel.
-     *
-     * @param actionListener
-     */
-    public void addConnectButtonListener(ActionListener actionListener) {
-        connectButton.addActionListener(actionListener);
-    }
-
-    /**
-     * This method handles events on the server open button on panel.
-     *
-     * @param actionListener
-     */
-    public void addServerOpenButtonListener(ActionListener actionListener) {
-        serverOpenButton.addActionListener(actionListener);
-    }
-
-    /**
-     * This method updates the connection status on panel.
-     */
-    public void updateConnectionLabel() {
-        // May need to update this
-        if (headerModel.isConnectionStatus()) {
-            connectButton.setText(ClientConstants.DISCONNECT);
-            connectionLabel.setText(ClientConstants.CONNECTED);
-        } else {
-            connectButton.setText(ClientConstants.CONNECT);
-            connectionLabel.setText(ClientConstants.DISCONNECTED);
-        }
-    }
-
-    /**
-     * This method updates the time stamp on the panel.
-     */
-    public void updateTimeStamp() {
-        timeStampLabel.setText(String.valueOf(headerModel.getTimeStamp()));
     }
 }

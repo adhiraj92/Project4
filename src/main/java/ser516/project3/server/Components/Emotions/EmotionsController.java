@@ -1,12 +1,11 @@
 package ser516.project3.server.Components.Emotions;
 
-import ser516.project3.constants.ServerConstants;
-import ser516.project3.interfaces.ControllerInterface;
-import ser516.project3.utilities.ServerCommonData;
-
-import javax.swing.*;
+import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import ser516.project3.constants.ServerConstants;
+import ser516.project3.utilities.ServerCommonData;
 
 /**
  * Class that helps communicate between EmotionsView and EmotionsModel.
@@ -15,9 +14,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Adhiraj Tikku
  */
-public class EmotionsController implements ControllerInterface {
-    private EmotionsModel emotionsModel;
-    private EmotionsView emotionsView;
+public class EmotionsController extends EmotionsAbstractController {
 
     /**
      * Constructor to set the emotions view and model object
@@ -26,8 +23,7 @@ public class EmotionsController implements ControllerInterface {
      * @param emotionsView  - EmotionsView object
      */
     public EmotionsController(EmotionsModel emotionsModel, EmotionsView emotionsView) {
-        this.emotionsModel = emotionsModel;
-        this.emotionsView = emotionsView;
+        super(emotionsModel, emotionsView);
     }
 
     /**
@@ -38,28 +34,8 @@ public class EmotionsController implements ControllerInterface {
     public void initializeView() {
         emotionsView.initializeView(null);
         for (int i = 0; i < 6; i++) {
-            emotionsView.addSpinnerListener(new SpinnerChangeListener());
+            emotionsView.addListener(new SpinnerChangeListener(), "SPINNER_EMOTION");
         }
-    }
-
-    /**
-     * Method to get the EmotionsView object
-     *
-     * @return EmotionsView object
-     */
-    @Override
-    public EmotionsView getView() {
-        return emotionsView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
     }
 
     /**

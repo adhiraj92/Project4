@@ -3,6 +3,7 @@ package ser516.project3.client.Components.PerformanceMetric;
 import com.alee.laf.button.WebButton;
 import ser516.project3.client.Components.Graph.GraphView;
 import ser516.project3.constants.ClientConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 import ser516.project3.utilities.NumberTextField;
 
@@ -12,6 +13,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
+import java.util.EventListener;
 
 /**
  * This class contains performance metrics view
@@ -20,8 +22,7 @@ import java.awt.event.KeyAdapter;
  *
  * @author Mohan Vasantrao Yadav, Adhiraj Tikku
  */
-public class PerformanceMetricView extends JPanel implements ViewInterface {
-    private PerformanceMetricModel performanceMetricModel;
+public class PerformanceMetricView extends PerformanceMetricAbstractView {
 
     private JPanel mainPanel;
     private JLabel displaylengthLabel;
@@ -42,7 +43,7 @@ public class PerformanceMetricView extends JPanel implements ViewInterface {
      * @param performanceMetricModel
      */
     public PerformanceMetricView(PerformanceMetricModel performanceMetricModel) {
-        this.performanceMetricModel = performanceMetricModel;
+        super(performanceMetricModel);
     }
 
     /**
@@ -53,9 +54,8 @@ public class PerformanceMetricView extends JPanel implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
+    	super.initializeView(subViews);
         GraphView graphView = (GraphView) subViews[0];
-        setLayout(new GridBagLayout());
-        setBackground(Color.decode(ClientConstants.PANEL_COLOR_HEX));
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -81,6 +81,51 @@ public class PerformanceMetricView extends JPanel implements ViewInterface {
         add(mainPanel, gridBagConstraints);
         setVisible(true);
     }
+    
+    /**
+     * This method updates the performance metric view buttons on color selection.
+     *
+     * @param performanceMetricModel
+     */
+    @Override
+    public void updateView(ModelInterface model) {
+        this.performanceMetricModel = (PerformanceMetricModel)model;
+        interestButton.setBottomBgColor(this.performanceMetricModel.getInterestColor());
+        engagementButton.setBottomBgColor(this.performanceMetricModel.getEngagementColor());
+        stressButton.setBottomBgColor(this.performanceMetricModel.getStressColor());
+        relaxationButton.setBottomBgColor(this.performanceMetricModel.getRelaxationColor());
+        excitementButton.setBottomBgColor(this.performanceMetricModel.getExcitementColor());
+        focusButton.setBottomBgColor(this.performanceMetricModel.getFocusColor());
+        displayLengthField.setText("" + this.performanceMetricModel.getDisplayLength());
+
+        interestButton.setTopSelectedBgColor(this.performanceMetricModel.getInterestColor());
+        engagementButton.setTopSelectedBgColor(this.performanceMetricModel.getEngagementColor());
+        stressButton.setTopSelectedBgColor(this.performanceMetricModel.getStressColor());
+        relaxationButton.setTopSelectedBgColor(this.performanceMetricModel.getRelaxationColor());
+        excitementButton.setTopSelectedBgColor(this.performanceMetricModel.getExcitementColor());
+        focusButton.setTopSelectedBgColor(this.performanceMetricModel.getFocusColor());
+        displayLengthField.setText("" + this.performanceMetricModel.getDisplayLength());
+    }
+
+	@Override
+	public void addListener(EventListener eventListener, String listenerType, String componentName) {
+		switch(componentName) {
+			case "BUTTON_EMOTIONS":
+				interestButton.addActionListener((ActionListener)eventListener);
+		        engagementButton.addActionListener((ActionListener)eventListener);
+		        stressButton.addActionListener((ActionListener)eventListener);
+		        relaxationButton.addActionListener((ActionListener)eventListener);
+		        excitementButton.addActionListener((ActionListener)eventListener);
+		        focusButton.addActionListener((ActionListener)eventListener);
+				break;
+			case "TEXTFIELD_DISPLAYLENGTH":
+				if(listenerType.equals("KEY"))
+					displayLengthField.addKeyListener((KeyAdapter)eventListener);
+				if(listenerType.equals("DOCUMENT"))
+					displayLengthField.getDocument().addDocumentListener((DocumentListener)eventListener);
+				break;
+		}
+	}
 
     /**
      * This method creates panel and configures components on the panel.
@@ -209,54 +254,5 @@ public class PerformanceMetricView extends JPanel implements ViewInterface {
         emotionButton.setHorizontalAlignment(SwingConstants.CENTER);
         emotionButton.setFont(new Font(ClientConstants.FONT_NAME, Font.BOLD, FONT_SIZE));
         return emotionButton;
-    }
-
-    /**
-     * This method handles events on emotion buttons.
-     *
-     * @param actionListener
-     */
-    public void addEmotionButtonsListener(ActionListener actionListener) {
-        interestButton.addActionListener(actionListener);
-        engagementButton.addActionListener(actionListener);
-        stressButton.addActionListener(actionListener);
-        relaxationButton.addActionListener(actionListener);
-        excitementButton.addActionListener(actionListener);
-        focusButton.addActionListener(actionListener);
-    }
-
-    /**
-     * This method handles key events on display length field.
-     *
-     * @param keyAdapter
-     * @param documentListener
-     */
-    public void addDisplayLengthListener(KeyAdapter keyAdapter, DocumentListener documentListener) {
-        displayLengthField.addKeyListener(keyAdapter);
-        displayLengthField.getDocument().addDocumentListener(documentListener);
-    }
-
-    /**
-     * This method updates the performance metric view buttons on color selection.
-     *
-     * @param performanceMetricModel
-     */
-    public void updatePerformanceMetricView(PerformanceMetricModel performanceMetricModel) {
-        this.performanceMetricModel = performanceMetricModel;
-        interestButton.setBottomBgColor(this.performanceMetricModel.getInterestColor());
-        engagementButton.setBottomBgColor(this.performanceMetricModel.getEngagementColor());
-        stressButton.setBottomBgColor(this.performanceMetricModel.getStressColor());
-        relaxationButton.setBottomBgColor(this.performanceMetricModel.getRelaxationColor());
-        excitementButton.setBottomBgColor(this.performanceMetricModel.getExcitementColor());
-        focusButton.setBottomBgColor(this.performanceMetricModel.getFocusColor());
-        displayLengthField.setText("" + this.performanceMetricModel.getDisplayLength());
-
-        interestButton.setTopSelectedBgColor(this.performanceMetricModel.getInterestColor());
-        engagementButton.setTopSelectedBgColor(this.performanceMetricModel.getEngagementColor());
-        stressButton.setTopSelectedBgColor(this.performanceMetricModel.getStressColor());
-        relaxationButton.setTopSelectedBgColor(this.performanceMetricModel.getRelaxationColor());
-        excitementButton.setTopSelectedBgColor(this.performanceMetricModel.getExcitementColor());
-        focusButton.setTopSelectedBgColor(this.performanceMetricModel.getFocusColor());
-        displayLengthField.setText("" + this.performanceMetricModel.getDisplayLength());
     }
 }

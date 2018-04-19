@@ -3,8 +3,8 @@ package ser516.project3.server.Components.Top;
 import com.alee.laf.button.WebButton;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.constants.ServerConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.server.view.StatusIndicator;
 import ser516.project3.utilities.NumberTextField;
 
 import javax.swing.*;
@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 /**
  * Class to create components in server settings panel in the server
@@ -20,14 +21,13 @@ import java.awt.event.ActionListener;
  *
  * @author Varun, Janani, Sangeetha, Ravi
  */
-public class TopView extends JPanel implements ViewInterface {
+public class TopView extends TopAbstractView {
 
     private JLabel intervalLabel;
     private JTextField intervalInputTextField;
     private JCheckBox autoRepeatCheckBox;
     private WebButton serverStartStopButton;
     private WebButton sendButton;
-    private TopModel topModel;
 
     private static StatusIndicator statusIndicator = new StatusIndicator();
 
@@ -43,7 +43,7 @@ public class TopView extends JPanel implements ViewInterface {
      *                 server settings panel
      */
     public TopView(TopModel topModel) {
-        this.topModel = topModel;
+        super(topModel);
     }
 
     /**
@@ -53,12 +53,8 @@ public class TopView extends JPanel implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-        setLayout(new GridBagLayout());
-        setBackground(Color.decode("#747b83"));
+        super.initializeView(subViews);
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-
-        Border titledBorder = new TitledBorder(null, "Server Settings", TitledBorder.LEADING,
-                TitledBorder.TOP, FONT, null);
 
         createIntervalLabel(gridBagConstraints);
         createIntervalInputTextField(gridBagConstraints);
@@ -66,6 +62,44 @@ public class TopView extends JPanel implements ViewInterface {
         createServerStartStopButton(gridBagConstraints);
         createSendButton(gridBagConstraints);
         createStatusIndicator(gridBagConstraints);
+    }
+    
+    @Override
+	public void updateView(ModelInterface model) {
+    	topModel = (TopModel) model;
+    	sendButton.setEnabled(topModel.isSendButtonEnabled());
+    	sendButton.setText(topModel.getSendButtonText());
+    	serverStartStopButton.setText(topModel.getServerStartStopButtonText());
+    	autoRepeatCheckBox.setEnabled(topModel.isAutoRepeatEnabled());
+    	intervalInputTextField.setEditable(topModel.isIntervalEditable());
+	}
+    
+    @Override
+	public void addListener(EventListener eventListener, String componentName) {
+		switch(componentName) {
+			case "TEXTFIELD_INTERVAL":
+				intervalInputTextField.getDocument().addDocumentListener((DocumentListener)eventListener);
+				break;
+			case "CHECKBOX_AUTOREPEAT":
+				autoRepeatCheckBox.addActionListener((ActionListener)eventListener);
+				break;
+			case "BUTTON_SERVER":
+				serverStartStopButton.addActionListener((ActionListener)eventListener);
+				break;
+			case "BUTTON_SEND":
+				sendButton.addActionListener((ActionListener)eventListener);
+				break;
+		}
+	}
+
+    /**
+     * Method to set the state status indicator
+     *
+     * @param status status of the server
+     */
+    @Override
+    public void setBlinking(boolean status) {
+        statusIndicator.setBlinking(status);
     }
 
     /**
@@ -194,77 +228,5 @@ public class TopView extends JPanel implements ViewInterface {
         gridBagConstraint.ipady = 0;
         gridBagConstraint.insets = new Insets(0, 0, 0, 0);
         add(statusIndicator, gridBagConstraint);
-    }
-
-    /**
-     * Method to add DocumentListener to time interval text field
-     */
-    public void addIntervalInputTextFieldListener(DocumentListener documentListener) {
-        intervalInputTextField.getDocument().addDocumentListener(documentListener);
-    }
-
-    /**
-     * Method to add ActionListener to Auto-Repeat CheckBox
-     */
-    public void addAutoRepeatCheckBoxListener(ActionListener actionListener) {
-        autoRepeatCheckBox.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add ActionListener to Server start-stop button
-     */
-    public void addServerStartStopButtonListener(ActionListener actionListener) {
-        serverStartStopButton.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add ActionListener to send button
-     */
-    public void addSendButtonListener(ActionListener actionListener) {
-        sendButton.addActionListener(actionListener);
-    }
-
-    /**
-     * Method to add enable or disable the send button
-     */
-    public void enableDisableSendButton() {
-        sendButton.setEnabled(topModel.isSendButtonEnabled());
-    }
-
-    /**
-     * Method to update the text of send button
-     */
-    public void updateSendButtonText() {
-        sendButton.setText(topModel.getSendButtonText());
-    }
-
-    /**
-     * Method to update start stop button text
-     */
-    public void updateServerStartStopButtonText() {
-        serverStartStopButton.setText(topModel.getServerStartStopButtonText());
-    }
-
-    /**
-     * Method to add enable or disable the auto-repeat Check box
-     */
-    public void enableDisableAutoRepeatCheckBox() {
-        autoRepeatCheckBox.setEnabled(topModel.isAutoRepeatEnabled());
-    }
-
-    /**
-     * Method to make the time interval text field editable
-     */
-    public void enableDisableEditableIntervalInputTextField() {
-        intervalInputTextField.setEditable(topModel.isIntervalEditable());
-    }
-
-    /**
-     * Method to set the state status indicator
-     *
-     * @param status status of the server
-     */
-    public void setBlinking(boolean status) {
-        statusIndicator.setBlinking(status);
     }
 }

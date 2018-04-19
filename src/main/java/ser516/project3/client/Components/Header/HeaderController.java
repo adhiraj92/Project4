@@ -1,12 +1,11 @@
 package ser516.project3.client.Components.Header;
 
-import ser516.project3.client.controller.ClientControllerFactory;
-import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpController;
-import ser516.project3.interfaces.CommonDataInterface;
-import ser516.project3.interfaces.ControllerInterface;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpController;
+import ser516.project3.client.controller.ClientControllerFactory;
+import ser516.project3.interfaces.ControllerInterface;
 
 /**
  * This class controls the UI for the header view on client which helps in
@@ -15,13 +14,10 @@ import java.awt.event.ActionListener;
  * @author Adhiraj Tikku, Vishakha Singal
  */
 
-public class HeaderController implements ControllerInterface, CommonDataInterface {
+public class HeaderController extends HeaderAbstractController {
 
-    private HeaderView headerView;
-    private HeaderModel headerModel;
     private ControllerInterface connectionPopUpController;
     private boolean tabSelected;
-
 
     /**
      * Constructor overloaded to initiate the model and view as well
@@ -31,8 +27,7 @@ public class HeaderController implements ControllerInterface, CommonDataInterfac
      */
     public HeaderController(HeaderModel headerModel, HeaderView headerView,
                             ConnectionPopUpController connectionPopUpController) {
-        this.headerView = headerView;
-        this.headerModel = headerModel;
+        super(headerModel, headerView);
         this.connectionPopUpController = connectionPopUpController;
     }
 
@@ -42,18 +37,8 @@ public class HeaderController implements ControllerInterface, CommonDataInterfac
     @Override
     public void initializeView() {
         headerView.initializeView(null);
-        headerView.addConnectButtonListener(new ConnectListener());
-        headerView.addServerOpenButtonListener(new ServerOpenListener());
-    }
-
-    /**
-     * Returns the instance of headerView
-     *
-     * @return headerView instance which is on top of the screen UI
-     */
-    @Override
-    public HeaderView getView() {
-        return headerView;
+        headerView.addListener(new ConnectListener(), "BUTTON_CONNECT");
+        headerView.addListener(new ServerOpenListener(), "BUTTON_OPENSERVER");
     }
 
     /**
@@ -77,7 +62,7 @@ public class HeaderController implements ControllerInterface, CommonDataInterfac
     @Override
     public void setConnectionStatus(boolean connectionStatus) {
         headerModel.setConnectionStatus(connectionStatus);
-        headerView.updateConnectionLabel();
+        headerView.updateView(headerModel);
     }
 
     /**
@@ -88,6 +73,18 @@ public class HeaderController implements ControllerInterface, CommonDataInterfac
     @Override
     public void setTabSelected(boolean tabSelected) {
         this.tabSelected = tabSelected;
+    }
+    
+    /**
+     * Method to set header time stamp
+     * and update it once the interval and elapsed time is set in the server dialog
+     *
+     * @param timeStamp The timestamp is the current timestamp received from the server
+     *                  to be updated on the UI
+     */
+    public void setHeaderTimeStamp(double timeStamp) {
+        headerModel.setTimeStamp(timeStamp);
+        headerView.updateView(headerModel);
     }
 
     /**
@@ -114,17 +111,5 @@ public class HeaderController implements ControllerInterface, CommonDataInterfac
                 connectionPopUpController.initializeView();
             }
         }
-    }
-
-    /**
-     * Method to set header time stamp
-     * and update it once the interval and elapsed time is set in the server dialog
-     *
-     * @param timeStamp The timestamp is the current timestamp received from the server
-     *                  to be updated on the UI
-     */
-    public void setHeaderTimeStamp(double timeStamp) {
-        headerModel.setTimeStamp(timeStamp);
-        headerView.updateTimeStamp();
     }
 }

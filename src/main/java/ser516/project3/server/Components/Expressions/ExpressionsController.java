@@ -1,20 +1,24 @@
 package ser516.project3.server.Components.Expressions;
 
-import ser516.project3.constants.ServerConstants;
-import ser516.project3.interfaces.ControllerInterface;
-import ser516.project3.model.MessageModel;
-import ser516.project3.server.controller.ServerController;
-import ser516.project3.utilities.ServerCommonData;
+import static java.lang.Thread.sleep;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import static java.lang.Thread.sleep;
+import javax.swing.ButtonModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import ser516.project3.constants.ServerConstants;
+import ser516.project3.model.MessageModel;
+import ser516.project3.server.controller.ServerController;
+import ser516.project3.utilities.ServerCommonData;
 
 /**
  * Class that helps communicate between ExpressionsView and ExpressionsModel.
@@ -23,9 +27,7 @@ import static java.lang.Thread.sleep;
  *
  * @author Adhiraj Tikku
  */
-public class ExpressionsController implements ControllerInterface {
-    private ExpressionsModel expressionsModel;
-    private ExpressionsView expressionsView;
+public class ExpressionsController extends ExpressionsAbstractController {
 
     /**
      * Constructor to set the emotions view and model object
@@ -34,8 +36,7 @@ public class ExpressionsController implements ControllerInterface {
      * @param expressionsView  ExpressionsView object
      */
     public ExpressionsController(ExpressionsModel expressionsModel, ExpressionsView expressionsView) {
-        this.expressionsModel = expressionsModel;
-        this.expressionsView = expressionsView;
+        super(expressionsModel, expressionsView);
     }
 
     /**
@@ -45,34 +46,14 @@ public class ExpressionsController implements ControllerInterface {
     @Override
     public void initializeView() {
         expressionsView.initializeView(null);
-        expressionsView.addLowerFaceComboListener(new LowerFaceComboListener());
-        expressionsView.addUpperFaceComboListener(new UpperFaceComboListener());
-        expressionsView.addEyeComboListener(new EyeComboListener());
-        expressionsView.addLowerFaceSpinnerChangeListener(new LowerFaceSpinnerChangeListener());
-        expressionsView.addUpperFaceSpinnerChangeListener(new UpperFaceSpinnerChangeListener());
-        expressionsView.addActivateToggleButtonItemListener(new ActivateToggleButtonItemListener());
-        expressionsView.addActivateButtonListener(new ActivateButtonChangeListener());
-        expressionsView.addEyeCheckBoxListener(new EyeCheckBoxListener());
-    }
-
-    /**
-     * Method to get the ExpressionsView object
-     *
-     * @return ExpressionsView object
-     */
-    @Override
-    public ExpressionsView getView() {
-        return expressionsView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
+        expressionsView.addListener(new LowerFaceComboListener(), "COMBO_LOWERFACE");
+        expressionsView.addListener(new UpperFaceComboListener(), "COMBO_UPPERFACE");
+        expressionsView.addListener(new EyeComboListener(), "COMBO_EYE");
+        expressionsView.addListener(new LowerFaceSpinnerChangeListener(), "SPINNER_LOWERFACE");
+        expressionsView.addListener(new UpperFaceSpinnerChangeListener(), "SPINNER_UPPERFACE");
+        expressionsView.addListener(new ActivateToggleButtonItemListener(), "TOGGLE_EYE");
+        expressionsView.addListener(new ActivateButtonChangeListener(), "BUTTON_EYE");
+        expressionsView.addListener(new EyeCheckBoxListener(), "CHECKBOX_EYE");
     }
 
     /**

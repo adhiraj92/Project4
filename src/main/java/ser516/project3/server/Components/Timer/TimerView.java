@@ -1,6 +1,7 @@
 package ser516.project3.server.Components.Timer;
 
 import ser516.project3.constants.ServerConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 
 import javax.swing.*;
@@ -12,9 +13,8 @@ import java.awt.*;
  *
  * @author ravi teja, Adhiraj Tikku
  */
-public class TimerView extends JPanel implements ViewInterface {
+public class TimerView extends TimerAbstractView {
     private JTextField timeElapsedInputTextField;
-    private TimerModel timerModel;
     private JLabel timeElapsedLabel;
 
     private static final String TIME_ELAPSED = "Time Elapsed(ms):  ";
@@ -25,7 +25,7 @@ public class TimerView extends JPanel implements ViewInterface {
      * @param timerModel model object containing required timer data.
      */
     public TimerView(TimerModel timerModel) {
-        this.timerModel = timerModel;
+        super(timerModel);
     }
 
     /**
@@ -35,12 +35,20 @@ public class TimerView extends JPanel implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-        setPreferredSize(new Dimension(100, 100));
-        setBackground(Color.decode(ServerConstants.COLOR_CODE));
+        super.initializeView(subViews);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         createTimeElapsedLabel(gridBagConstraints);
         createTimeElapsedInputTextField(gridBagConstraints);
+    }
+    
+    /**
+     * Method to update the time stamp in the timer panel
+     */
+    @Override
+    public void updateView(ModelInterface model) {
+    	timerModel = (TimerModel) model;
+        timeElapsedInputTextField.setText("" + timerModel.getTimeElapsed());
     }
 
     /**
@@ -79,12 +87,5 @@ public class TimerView extends JPanel implements ViewInterface {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipady = 10;
         add(timeElapsedInputTextField, gridBagConstraints);
-    }
-
-    /**
-     * Method to update the time stamp in the timer panel
-     */
-    public void updateTimeStamp() {
-        timeElapsedInputTextField.setText("" + timerModel.getTimeElapsed());
     }
 }

@@ -1,16 +1,16 @@
 package ser516.project3.client.Components.ConnectionPopUp;
 
-import ser516.project3.client.controller.ClientControllerFactory;
-import ser516.project3.constants.ClientConstants;
-import ser516.project3.interfaces.ControllerInterface;
-import ser516.project3.interfaces.ViewInterface;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import ser516.project3.client.controller.ClientControllerFactory;
+import ser516.project3.constants.ClientConstants;
 
 /**
  * It controls the flow of Connection Details pop up to
@@ -20,18 +20,14 @@ import java.awt.event.ActionListener;
  * @author vishakhasingal, Adhiraj Tikku
  */
 
-public class ConnectionPopUpController implements ControllerInterface {
-    private ConnectionPopUpView connectionPopUpView;
-    private ConnectionPopUpModel connectionPopUpModel;
+public class ConnectionPopUpController extends ConnectionPopUpAbstractController {
 
     /**
      * Constructor to add popup model and view in
      * Connection popup controller
      */
-
-    public ConnectionPopUpController(ConnectionPopUpModel connectionPopUpModel, ConnectionPopUpView connectionPopUpView) {
-        this.connectionPopUpModel = connectionPopUpModel;
-        this.connectionPopUpView = connectionPopUpView;
+    public ConnectionPopUpController(ConnectionPopUpModel connectionPopUpModel, ConnectionPopUpAbstractView connectionPopUpView) {
+        super(connectionPopUpModel, connectionPopUpView);
     }
 
     /**
@@ -42,28 +38,9 @@ public class ConnectionPopUpController implements ControllerInterface {
     @Override
     public void initializeView() {
         connectionPopUpView.initializeView(null);
-        connectionPopUpView.addConnectButtonListener(new ConnectListener());
-        connectionPopUpView.addIPDocumentListener(new IPDocumentListener());
-        connectionPopUpView.addPortDocumentListener(new PortDocumentListener());
-    }
-
-    /**
-     * Method to get ConnectionPopUp view
-     * and @return ConnectionPopUp view object
-     */
-    @Override
-    public ViewInterface getView() {
-        return connectionPopUpView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
+        connectionPopUpView.addListener(new ConnectListener(), "BUTTON_OK");
+        connectionPopUpView.addListener(new IPDocumentListener(), "TEXTFIELD_IP");
+        connectionPopUpView.addListener(new PortDocumentListener(), "TEXTFIELD_PORT");
     }
 
     /**

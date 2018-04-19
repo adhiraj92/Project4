@@ -16,6 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import ser516.project3.constants.ServerConstants;
+import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
 import ser516.project3.server.Components.Console.ConsoleView;
 import ser516.project3.server.Components.Emotions.EmotionsView;
@@ -74,6 +75,12 @@ public class ServerView extends JFrame implements ViewInterface {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(ServerConstants.SERVER);
 		setVisible(true);
+	}
+	
+	@Override
+	public void updateView(ModelInterface model) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

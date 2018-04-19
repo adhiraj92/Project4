@@ -1,8 +1,6 @@
 package ser516.project3.client.Components.Graph;
 
-import ser516.project3.interfaces.ControllerInterface;
-
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -14,9 +12,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 2018-03-30
  */
-public class GraphController implements ControllerInterface {
-    private GraphModel graphModel;
-    private GraphView graphView;
+public class GraphController extends GraphAbstractController {
 
     /**
      * Initializes an instance the graph controller with <code>GraphModel</code> and
@@ -28,34 +24,7 @@ public class GraphController implements ControllerInterface {
      * @see GraphView
      */
     public GraphController(GraphModel graphModel, GraphView graphView) {
-        this.graphModel = graphModel;
-        this.graphView = graphView;
-    }
-
-    /**
-     * initializes the graph view with respective values
-     */
-    @Override
-    public void initializeView() {
-        graphView.initializeView(null);
-    }
-
-    /**
-     * Method to get the Graph View
-     */
-    @Override
-    public GraphView getView() {
-        return graphView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
+        super(graphModel, graphView);
     }
 
     /**
@@ -153,7 +122,7 @@ public class GraphController implements ControllerInterface {
     /**
      * Updates the GraphView using the new data from the <code>GraphModel</code>.
      */
-    public void updateGraphView() {
-        graphView.updateGraphView(graphModel);
+    public void updateView() {
+        graphView.updateView(graphModel);
     }
 }

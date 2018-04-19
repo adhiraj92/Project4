@@ -37,6 +37,6 @@ class GraphControllerTest {
     }
     graphController.setXLength(100);
     graphController.setGraphData(graphData);
-    graphController.updateGraphView();
+    graphController.updateView();
   }
 }

@@ -1,7 +1,5 @@
 package ser516.project3.server.Components.Console;
 
-import ser516.project3.interfaces.ControllerInterface;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,17 +9,14 @@ import java.awt.event.ActionListener;
  *
  * @author Adhiraj Tikku
  */
-public class ConsoleController implements ControllerInterface {
-    private ConsoleModel consoleModel;
-    private ConsoleView consoleView;
+public class ConsoleController extends ConsoleAbstractController {
 
     /**
      * Constructor to set the console view and model and to add observer
      * to the components in console
      */
     public ConsoleController(ConsoleModel consoleModel, ConsoleView consoleView) {
-        this.consoleModel = consoleModel;
-        this.consoleView = consoleView;
+        super(consoleModel, consoleView);
         consoleModel.addObserver(consoleView);
     }
 
@@ -32,27 +27,7 @@ public class ConsoleController implements ControllerInterface {
     @Override
     public void initializeView() {
         consoleView.initializeView(null);
-        consoleView.addClearConsoleListener(new ClearConsoleListener());
-    }
-
-    /**
-     * Method to get console view object
-     *
-     * @return ConsoleView object
-     */
-    @Override
-    public ConsoleView getView() {
-        return consoleView;
-    }
-
-    /**
-     * Returns the set of sub controllers in case any
-     *
-     * @return array containing sub controllers
-     */
-    @Override
-    public ControllerInterface[] getSubControllers() {
-        return null;
+        consoleView.addListener(new ClearConsoleListener(), "BUTTON_CLEARCONSOLE");
     }
 
     /**

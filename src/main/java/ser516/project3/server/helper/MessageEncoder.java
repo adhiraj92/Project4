@@ -1,4 +1,4 @@
-package ser516.project3.utilities;
+package ser516.project3.server.helper;
 
 import ser516.project3.model.MessageModel;
 import ser516.project3.model.MessageModel.AbstractExpression;

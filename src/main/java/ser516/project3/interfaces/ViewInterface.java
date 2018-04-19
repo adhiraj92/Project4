@@ -13,4 +13,9 @@ public interface ViewInterface {
      * @param subViews gives array of all the subviews to be initialized
      */
     void initializeView(ViewInterface subViews[]);
+    
+    /**
+     * Updates the view with the values given in the respective model.
+     */
+    void updateView(ModelInterface model);
 }

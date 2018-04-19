@@ -8,8 +8,10 @@ import ser516.project3.utilities.NumberTextField;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 /**
  * ConnectioonPopUp class to show the pop up dialog in which user can enter the
@@ -18,14 +20,7 @@ import java.awt.event.ActionListener;
  * @author Vishakha Singal, Adhiraj Tikku
  * @version 1.0
  */
-public class ConnectionPopUpView extends JDialog implements ViewInterface {
-    private ConnectionPopUpModel connectionPopUpModel;
-    private JPanel mainPanel;
-    private JLabel ipAddressLabel;
-    private JLabel portNumberLabel;
-    private JTextField ipAddressTextField;
-    private NumberTextField portNumberTextField;
-    private WebButton okButton;
+public class ConnectionPopUpView extends ConnectionPopUpAbstractView {
 
     private final static int FONT_SIZE = 15;
 
@@ -35,7 +30,7 @@ public class ConnectionPopUpView extends JDialog implements ViewInterface {
      * @param connectionPopUpModel an instance of ConnectionPopUpModel class
      */
     public ConnectionPopUpView(ConnectionPopUpModel connectionPopUpModel) {
-        this.connectionPopUpModel = connectionPopUpModel;
+    	super(connectionPopUpModel);
     }
 
     /**
@@ -46,13 +41,8 @@ public class ConnectionPopUpView extends JDialog implements ViewInterface {
      */
     @Override
     public void initializeView(ViewInterface[] subViews) {
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(280, 200));
-        setResizable(false);
-        setTitle(ClientConstants.CONNECTION_POP_UP_TITLE);
-
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        super.initializeView(null);
+        
         GridBagConstraints bagConstraints = new GridBagConstraints();
         bagConstraints.fill = GridBagConstraints.HORIZONTAL;
 
@@ -64,6 +54,27 @@ public class ConnectionPopUpView extends JDialog implements ViewInterface {
         add(mainPanel);
         setVisible(true);
     }
+    
+    /**
+     * This method adds a listener to a component identified by a component name.
+     *
+     * @param eventListener object of the Listener to be added
+     * @param componentName a String to identify the component
+     */
+	@Override
+	public void addListener(EventListener eventListener, String componentName) {
+		switch(componentName) {
+			case "BUTTON_OK":
+				okButton.addActionListener((ActionListener)eventListener);
+				break;
+			case "TEXTFIELD_IP":
+				ipAddressTextField.getDocument().addDocumentListener((DocumentListener)eventListener);
+				break;
+			case "TEXTFIELD_PORT":
+				portNumberTextField.getDocument().addDocumentListener((DocumentListener)eventListener);
+				break;
+		}
+	}
 
     /**
      * This method creates a main panel for connection pop up
@@ -145,34 +156,5 @@ public class ConnectionPopUpView extends JDialog implements ViewInterface {
         bagConstraints.gridwidth = 2;
         bagConstraints.insets = new Insets(20, 20, 0, 20);
         mainPanel.add(okButton, bagConstraints);
-    }
-
-    /**
-     * This method handles connect button on connection popup dialog.
-     *
-     * @param actionListener an object of ActionListener class
-     */
-    public void addConnectButtonListener(ActionListener actionListener) {
-        okButton.addActionListener(actionListener);
-    }
-
-    /**
-     * This method handles ip text field
-     * on connectionPopUp dialog.
-     *
-     * @param documentListener an object of DocumentListener
-     */
-    public void addIPDocumentListener(DocumentListener documentListener) {
-        ipAddressTextField.getDocument().addDocumentListener(documentListener);
-    }
-
-    /**
-     * This method handles port number text field
-     * on connectionPopUp dialog.
-     *
-     * @param documentListener an object of DocumentListener
-     */
-    public void addPortDocumentListener(DocumentListener documentListener) {
-        portNumberTextField.getDocument().addDocumentListener(documentListener);
     }
 }

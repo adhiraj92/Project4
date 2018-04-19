@@ -1,5 +1,6 @@
 package ser516.project3.client.controller;
 
+import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpAbstractView;
 import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpController;
 import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpModel;
 import ser516.project3.client.Components.ConnectionPopUp.ConnectionPopUpView;
@@ -86,7 +87,7 @@ public class ClientControllerFactory {
             faceController = new FaceController((FaceModel) model, (FaceView) view);
             return faceController;
         } else if (controllerType.equalsIgnoreCase(ClientConstants.CONNECTION_POP_UP)) {
-            return new ConnectionPopUpController((ConnectionPopUpModel) model, (ConnectionPopUpView) view);
+            return new ConnectionPopUpController((ConnectionPopUpModel) model, (ConnectionPopUpAbstractView) view);
         }
 
         return null;
