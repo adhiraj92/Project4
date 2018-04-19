@@ -1,11 +1,12 @@
 package ser516.project3.client.Components.PerformanceMetric;
 
 import com.alee.laf.button.WebButton;
+
+import ser516.project3.client.Components.NumberTextField;
 import ser516.project3.client.Components.Graph.GraphView;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.utilities.NumberTextField;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -27,7 +28,7 @@ public class PerformanceMetricView extends PerformanceMetricAbstractView {
     private JPanel mainPanel;
     private JLabel displaylengthLabel;
     private JLabel secondsLabel;
-    private NumberTextField displayLengthField;
+    private JTextField displayLengthField;
     private WebButton interestButton;
     private WebButton engagementButton;
     private WebButton stressButton;
@@ -209,7 +210,7 @@ public class PerformanceMetricView extends PerformanceMetricAbstractView {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
-        displayLengthField = new NumberTextField("" + performanceMetricModel.getDisplayLength(), false);
+        displayLengthField = new NumberTextField("" + performanceMetricModel.getDisplayLength());
         displayLengthField.setBackground(Color.decode(ClientConstants.TEXT_FIELD_COLOR_HEX));
         displayLengthField.setForeground(Color.WHITE);
         displayLengthField.setHorizontalAlignment(SwingConstants.CENTER);

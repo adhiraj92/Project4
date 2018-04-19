@@ -11,9 +11,9 @@ import javax.swing.text.BadLocationException;
 import org.apache.log4j.Logger;
 
 import ser516.project3.constants.ServerConstants;
+import ser516.project3.server.Components.ServerCommonData;
 import ser516.project3.server.controller.ServerController;
 import ser516.project3.server.service.ServerConnectionServiceInterface;
-import ser516.project3.utilities.ServerCommonData;
 
 /**
  * Class that helps communicate between TopView and TopModel.

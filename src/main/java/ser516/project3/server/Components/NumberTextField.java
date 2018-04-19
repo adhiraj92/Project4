@@ -1,4 +1,4 @@
-package ser516.project3.utilities;
+package ser516.project3.server.Components;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -13,7 +13,6 @@ import static java.awt.event.KeyEvent.*;
  */
 public class NumberTextField extends JTextField {
     private static final long serialVersionUID = 1L;
-    private boolean isDouble = false;
 
 	/**
 	 * constructor to construct the textfield with input string and if it can be double value
@@ -21,8 +20,7 @@ public class NumberTextField extends JTextField {
 	 * @param input	The string entered in the textfield
 	 * @param isDouble	True if the textfield supports double value
 	 */
-	public NumberTextField(String input, boolean isDouble) {
-		this.isDouble = isDouble;
+	public NumberTextField(String input) {
 		setText(input);
 	}
 
@@ -38,7 +36,7 @@ public class NumberTextField extends JTextField {
 				|| keyEvent.getKeyCode() == VK_RIGHT)
 				|| (getText().length() < 4 && (Character.isDigit(keyEvent.getKeyChar())))) {
 			super.processKeyEvent(keyEvent);
-		} else if(getText().length() < 4 && isDouble && keyEvent.getKeyChar() == VK_PERIOD) {
+		} else if(getText().length() < 4 && keyEvent.getKeyChar() == VK_PERIOD) {
 			super.processKeyEvent(keyEvent);
 		}
 		keyEvent.consume();

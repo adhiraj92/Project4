@@ -5,7 +5,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ser516.project3.constants.ServerConstants;
-import ser516.project3.utilities.ServerCommonData;
+import ser516.project3.server.Components.ServerCommonData;
 
 /**
  * Class that helps communicate between EmotionsView and EmotionsModel.

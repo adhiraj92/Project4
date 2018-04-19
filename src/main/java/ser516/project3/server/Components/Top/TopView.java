@@ -5,7 +5,7 @@ import ser516.project3.constants.ClientConstants;
 import ser516.project3.constants.ServerConstants;
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.utilities.NumberTextField;
+import ser516.project3.server.Components.NumberTextField;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -127,7 +127,7 @@ public class TopView extends TopAbstractView {
      *                          for each text field
      */
     private void createIntervalInputTextField(GridBagConstraints gridBagConstraint) {
-        intervalInputTextField = new NumberTextField("" + topModel.getInterval(), true);
+        intervalInputTextField = new NumberTextField("" + topModel.getInterval());
         intervalInputTextField.setBackground(Color.decode("#616266"));
         intervalInputTextField.setBorder(null);
         intervalInputTextField.setColumns(3);

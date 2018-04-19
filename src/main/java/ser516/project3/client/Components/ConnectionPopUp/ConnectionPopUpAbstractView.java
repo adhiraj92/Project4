@@ -15,7 +15,6 @@ import com.alee.laf.button.WebButton;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.ModelInterface;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.utilities.NumberTextField;
 
 @SuppressWarnings("serial")
 public abstract class ConnectionPopUpAbstractView extends JDialog implements ViewInterface {
@@ -24,7 +23,7 @@ public abstract class ConnectionPopUpAbstractView extends JDialog implements Vie
 	protected JLabel ipAddressLabel;
 	protected JLabel portNumberLabel;
 	protected JTextField ipAddressTextField;
-	protected NumberTextField portNumberTextField;
+	protected JTextField portNumberTextField;
 	protected WebButton okButton;
 	
 	/**

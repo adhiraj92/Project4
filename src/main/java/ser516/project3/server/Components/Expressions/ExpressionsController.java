@@ -17,8 +17,8 @@ import javax.swing.event.ChangeListener;
 
 import ser516.project3.constants.ServerConstants;
 import ser516.project3.model.MessageModel;
+import ser516.project3.server.Components.ServerCommonData;
 import ser516.project3.server.controller.ServerController;
-import ser516.project3.utilities.ServerCommonData;
 
 /**
  * Class that helps communicate between ExpressionsView and ExpressionsModel.

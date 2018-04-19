@@ -1,9 +1,10 @@
 package ser516.project3.client.Components.ConnectionPopUp;
 
 import com.alee.laf.button.WebButton;
+
+import ser516.project3.client.Components.NumberTextField;
 import ser516.project3.constants.ClientConstants;
 import ser516.project3.interfaces.ViewInterface;
-import ser516.project3.utilities.NumberTextField;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -127,7 +128,7 @@ public class ConnectionPopUpView extends ConnectionPopUpAbstractView {
         bagConstraints.insets = new Insets(0, 0, 10, 0);
         mainPanel.add(ipAddressTextField, bagConstraints);
 
-        portNumberTextField = new NumberTextField("" + connectionPopUpModel.getPortNumber(), false);
+        portNumberTextField = new NumberTextField("" + connectionPopUpModel.getPortNumber());
         portNumberTextField.setPreferredSize(new Dimension(80, 20));
         bagConstraints.gridx = 1;
         bagConstraints.gridy = 1;
